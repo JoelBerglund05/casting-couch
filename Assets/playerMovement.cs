@@ -11,6 +11,10 @@ public class playerMovement : NetworkBehaviour
 
     private Vector2 movement;
 
+    void Start(){
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -19,6 +23,7 @@ public class playerMovement : NetworkBehaviour
 
       
     }
+
     void FixedUpdate()
     {
         if (!IsOwner) return;
