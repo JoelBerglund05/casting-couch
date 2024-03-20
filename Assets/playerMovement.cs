@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class playerMovement : NetworkBehaviour
 {
-    public float moveSpeed = 5f;
+    private float moveSpeed = 5f;
 
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     Vector2 movement;
 
