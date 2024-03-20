@@ -10,6 +10,8 @@ public class playerMovement : NetworkBehaviour
     private Rigidbody2D rb;
 
     private Vector2 movement;
+    
+    private NetworkVariable<int> randomNumber = new NetworkVariable<int>();
 
     void Start(){
         rb = GetComponent<Rigidbody2D>();
@@ -18,6 +20,7 @@ public class playerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+       if (!IsOwner) return;
        movement.x = Input.GetAxisRaw("Horizontal");
        movement.y = Input.GetAxisRaw("Vertical");
 
