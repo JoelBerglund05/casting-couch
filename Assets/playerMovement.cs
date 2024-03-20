@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour
+public class playerMovement : NetworkBehaviour
 {
     public float moveSpeed = 5f;
 
@@ -20,6 +21,7 @@ public class playerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (!IsOwner) return;
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.deltaTime);
     }
 }
