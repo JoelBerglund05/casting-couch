@@ -9,7 +9,7 @@ public class playerMovement : NetworkBehaviour
 
     private Rigidbody2D rb;
 
-    Vector2 movement;
+    private Vector2 movement;
 
     // Update is called once per frame
     void Update()
