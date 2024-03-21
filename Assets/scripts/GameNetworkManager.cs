@@ -78,6 +78,7 @@ public class GameNetworkManager : MonoBehaviour
         else
         {
             CurrentLobby = _lobby;
+            GameManager.instance.ConnectedAsClient();
             Debug.Log("joined lobby");
         }
     }
@@ -122,11 +123,13 @@ public class GameNetworkManager : MonoBehaviour
         _lobby.SetJoinable(true);
         _lobby.SetGameServer(_lobby.Owner.Id);
         Debug.Log($"lobby created {_lobby.Owner.Name}");
+        NetworkTransmission.instance.AddMeToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, NetworkManager.Singleton.LocalClientId);
     }
     public async void StartHost(int _maxMembers)
     {
         NetworkManager.Singleton.OnServerStarted += Singleton_OnServerStarted;
         NetworkManager.Singleton.StartHost();
+        GameManager.instance.myClientId = NetworkManager.Singleton.LocalClientId;
         CurrentLobby = await SteamMatchmaking.CreateLobbyAsync(_maxMembers);
     }
     public void StartClient(SteamId _sId)
@@ -134,6 +137,7 @@ public class GameNetworkManager : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
         transport.targetSteamId = _sId;
+        GameManager.instance.myClientId = NetworkManager.Singleton.LocalClientId;
         if (NetworkManager.Singleton.StartClient())
         {
             Debug.Log("client has started");
@@ -156,21 +160,30 @@ public class GameNetworkManager : MonoBehaviour
             NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
         }
         NetworkManager.Singleton.Shutdown(true);
+        GameManager.instance.Disconnected();
         Debug.Log("disconnected");
     }
 
-    private void Singleton_OnClientDisconnectCallback(ulong obj)
+    private void Singleton_OnClientDisconnectCallback(ulong _clientId)
     {
-        throw new System.NotImplementedException();
+        NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
+        if(_clientId == 0)
+        {
+            Disconnected();
+        }
     }
 
-    private void Singleton_OnClientConnectedCallback(ulong obj)
+    private void Singleton_OnClientConnectedCallback(ulong _clientId)
     {
-        throw new System.NotImplementedException();
+        NetworkTransmission.instance.AddMeToDictionaryServerRPC(SteamClient.SteamId,SteamClient.Name, _clientId);
+        GameManager.instance.myClientId = _clientId;
+        NetworkTransmission.instance.IsTheClientReadyServerRpc(false, _clientId);
+        Debug.Log($"client has connected: {_clientId}");
     }
 
     private void Singleton_OnServerStarted()
     {
         Debug.Log("host started");
+        GameManager.instance.HostCreated();
     }
 }
