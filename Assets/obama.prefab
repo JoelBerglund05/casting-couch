@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4969393315039603380}
   - component: {fileID: -683601167324766286}
   - component: {fileID: 1419709481889645340}
+  - component: {fileID: -5850383866295117080}
   m_Layer: 0
   m_Name: obama
   m_TagString: Untagged
@@ -192,3 +193,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5850383866295117080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089083996859920599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffa14c548de8b64dbdf129b7059339e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile_spawn_point: {fileID: 7098624791216114787}
+  gun: {fileID: 1089083996859920599}
+  projectile: {fileID: 6743572460551530182, guid: 05a01cb26f6b9dc4c8be6b78694312c6, type: 3}

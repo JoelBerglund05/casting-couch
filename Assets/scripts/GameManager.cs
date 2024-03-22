@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   
+
 
     public void HostCreated()
     {
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         playerInfo.Clear();
         GameObject[] PlayerCards = GameObject.FindGameObjectsWithTag("PlayerCard");
-        foreach(GameObject card in PlayerCards)
+        foreach (GameObject card in PlayerCards)
         {
             Destroy(card);
         }
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         isHost = false;
         connected = false;
     }
-    
+
     public void AddPlayerToDictionary(ulong _clientId, string _steamName, ulong _steamId)
     {
         if (!playerInfo.ContainsKey(_clientId))
@@ -78,36 +78,36 @@ public class GameManager : MonoBehaviour
 
     public void UpdateClients()
     {
-        foreach(KeyValuePair<ulong,GameObject> _player in playerInfo)
+        foreach (KeyValuePair<ulong, GameObject> _player in playerInfo)
         {
             ulong _steamId = _player.Value.GetComponent<PlayerInfo>().steamId;
             string _steamName = _player.Value.GetComponent<PlayerInfo>().steamName;
             ulong _clientId = _player.Key;
 
-            NetworkTransmission.instance.UpdateClientsPlayerInfoClientRPC(_steamId,_steamName, _clientId);
+            NetworkTransmission.instance.UpdateClientsPlayerInfoClientRPC(_steamId, _steamName, _clientId);
         }
     }
     public void RemovePlayerFromDictionary(ulong _steamId)
     {
         GameObject _value = null;
         ulong _key = 100;
-            foreach(KeyValuePair<ulong,GameObject> _player in playerInfo)
+        foreach (KeyValuePair<ulong, GameObject> _player in playerInfo)
         {
-            if(_player.Value.GetComponent<PlayerInfo>().steamId == _steamId)
+            if (_player.Value.GetComponent<PlayerInfo>().steamId == _steamId)
             {
                 _value = _player.Value;
                 _key = _player.Key;
             }
         }
-        if(_key != 100)
+        if (_key != 100)
         {
             playerInfo.Remove(_key);
         }
-        if( _value != null)
+        if (_value != null)
         {
-            Destroy( _value );
+            Destroy(_value);
         }
-        
+
     }
     public void ReadyButton(bool _ready)
     {
@@ -118,9 +118,9 @@ public class GameManager : MonoBehaviour
     {
         bool _ready = false;
 
-        foreach(KeyValuePair<ulong,GameObject> _player in playerInfo)
+        foreach (KeyValuePair<ulong, GameObject> _player in playerInfo)
         {
-            if(!_player.Value.GetComponent<PlayerInfo>().isReady)
+            if (!_player.Value.GetComponent<PlayerInfo>().isReady)
             {
                 startButton.SetActive(false);
                 return false;
