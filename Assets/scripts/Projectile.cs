@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+//public class Projectile : using UnityEngine;
+//using UnityEngine.Networking;
+
+public class Projectile : NetworkBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float time_before_destroy = 3f;
@@ -27,19 +30,8 @@ public class Projectile : MonoBehaviour
         SetStraightVelocity();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
+    void SetStraightVelocity() => rb.velocity = transform.right * speed;
 
-    void SetStraightVelocity()
-    {
-        rb.velocity = transform.right * speed;
-    }
-
-    void SetDestroyTime()
-    {
-        Destroy(gameObject, time_before_destroy);
-    }
+    void SetDestroyTime() => Destroy(gameObject, time_before_destroy);
 }

@@ -35,10 +35,10 @@ public class FireProjectile : NetworkBehaviour
         direction = (world_position - (Vector2)gun.transform.position).normalized;
         gun.transform.right = direction;
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void HandleGunShootingServerRpc()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame && IsOwner)
         {
             GameObject spawn_bullet = Instantiate(projectile, projectile_spawn_point.position, gun.transform.rotation);
             spawn_bullet.GetComponent<NetworkObject>().Spawn();
